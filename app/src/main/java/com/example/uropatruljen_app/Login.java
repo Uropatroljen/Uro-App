@@ -23,11 +23,12 @@ public class Login extends AppCompatActivity {
     EditText input;
     Button loginBTN;
     Thread Thread = null;
-    String serverIP = "10.108.137.80";
+    String serverIP = "192.168.4.1";
     Socket socket;
     ProtobufHandler protobuf;
     int serverPORT = 1883;
     SocketThread t;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,14 +49,16 @@ public class Login extends AppCompatActivity {
         //We need to start the socket connection
         //Android studio only allows socket connection to be stared in diffrent thread from main
         new Thread(() -> {
-          try {
-             socket = new Socket("10.108.137.80", 1883);
-              t = new SocketThread(socket);
-              t.receiveData();
-            } catch (IOException ex) {
-
+            try {
+                socket = new Socket("192.168.4.1", 1883);
+                t = new SocketThread(socket);
+                t.receiveData();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-          }).start();
+        }).start();
+
+        // Creating protobuf object
         protobuf = new ProtobufHandler();
         Command network_credntials = protobuf.generateCommand("Network Credntials",NetworkCre.newBuilder().setSsid(receivedToShareSSID).setPass(receivedToSharePass).build());
         try {
@@ -82,10 +85,15 @@ public class Login extends AppCompatActivity {
                     Uro uro = Uro.newBuilder().setModel(modelNum).build();
                     Command uroModelNum = protobuf.generateCommand("modelNumber",Uro.newBuilder().setModel(toHexString(getSHA(modelNum))).build());
                     t.sendMessage(uroModelNum);
+                    
+                    // Intent function to move to another activity
                     Intent goToHotspot = new Intent(getApplicationContext(), Hotspot.class);
+                    
+                    // Using .putExtra for sending values to another activity
                     goToHotspot.putExtra("ssid_key", receivedToShareSSID);
                     goToHotspot.putExtra("pass_key", receivedToSharePass);
                     startActivity(goToHotspot);
+                    
                     Toast.makeText(getBaseContext(),  modelNum + " til SHA256: " + toHexString(getSHA(modelNum)), Toast.LENGTH_SHORT).show();
 
                 } catch (NoSuchAlgorithmException e) {
