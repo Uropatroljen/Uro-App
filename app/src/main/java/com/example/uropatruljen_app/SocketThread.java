@@ -1,8 +1,5 @@
 package com.example.uropatruljen_app;
 
-import android.widget.Toast;
-
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -10,23 +7,22 @@ import com.example.uropatruljen_app.protobuf.*;
 import com.google.protobuf.InvalidProtocolBufferException;
 
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 public class SocketThread implements Runnable{
 
+    //Set the current socket connection
+    //Instantiate output and input stream using the socket connection
     public SocketThread(Socket socket){
         this.socket = socket;
         try {
             out = socket.getOutputStream();
             in = socket.getInputStream();
-
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
     OutputStream out;
     InputStream in;
     private Socket socket;
@@ -35,6 +31,8 @@ public class SocketThread implements Runnable{
     public void run(){
     }
 
+    //Sends message threw the socket connection
+    //Takes Protobuf message object
     public void sendMessage(Command message){
         if(socket.isConnected()){
             new Thread(() -> {
@@ -48,6 +46,9 @@ public class SocketThread implements Runnable{
             }).start();
         }
     }
+
+    //Recives data from server when written to the client.
+    //Using outputstream from the socket client.
     public void receiveData() {
         new Thread(() -> {
 
@@ -67,6 +68,7 @@ public class SocketThread implements Runnable{
         }).start();
     }
 
+    //Gets a bytearray and deserilizes it to an command object
     private Command deSerilizeMessage(byte[] message){
         try{
             return Command.parseFrom(message);
@@ -77,6 +79,7 @@ public class SocketThread implements Runnable{
         return null;
     }
 
+    //Serilize the command to bytearray
     private byte[] serilizeMessage(Command message){
         return message.toByteArray();
     }

@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.example.uropatruljen_app.protobuf.*;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -34,7 +35,9 @@ public class OptionPage extends AppCompatActivity implements AdapterView.OnItemS
     private CountDownTimer countDownTimer;
     private long timeStart;
     private boolean timerRun;
+    ProtobufHandler protobuf;
     private long timeLeft;
+    SocketThread t;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +87,7 @@ public class OptionPage extends AppCompatActivity implements AdapterView.OnItemS
         songs.add("Fem små aber");
         songs.add("Lille peter edderkop");
         songs.add("Hjulene på bussen");
+
 
         // Creating adapter for spinner
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, songs);

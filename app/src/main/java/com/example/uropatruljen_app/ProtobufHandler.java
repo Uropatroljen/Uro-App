@@ -4,6 +4,8 @@ import com.example.uropatruljen_app.protobuf.*;
 
 public class ProtobufHandler {
 
+    //Dynamic method to generate new command object
+    //Takes one of the oneof objects from the protobuf .prorot file and wraps it into an command object
     public Command generateCommand(String command,Object obj){
         Command commandObj;
         if (obj.getClass() == Client.class)

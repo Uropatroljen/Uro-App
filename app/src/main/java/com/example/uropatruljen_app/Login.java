@@ -34,6 +34,9 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // Creating protobuf object
+        protobuf = new ProtobufHandler();
+
         // Getting view that is identified by the android:id
         info = findViewById(R.id.required);
         input = findViewById(R.id.enterModelNum);
@@ -50,7 +53,7 @@ public class Login extends AppCompatActivity {
         //Android studio only allows socket connection to be stared in diffrent thread from main
         new Thread(() -> {
             try {
-                socket = new Socket("192.168.4.1", 1883);
+                socket = new Socket(serverIP, serverPORT);
                 t = new SocketThread(socket);
                 t.receiveData();
             } catch (IOException e) {
@@ -58,9 +61,8 @@ public class Login extends AppCompatActivity {
             }
         }).start();
 
-        // Creating protobuf object
-        protobuf = new ProtobufHandler();
         Command network_credntials = protobuf.generateCommand("Network Credntials",NetworkCre.newBuilder().setSsid(receivedToShareSSID).setPass(receivedToSharePass).build());
+        //we need to sleep thread for a sec to make sure socket is connectede
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
@@ -82,7 +84,8 @@ public class Login extends AppCompatActivity {
             else {
 
                 try {
-                    Uro uro = Uro.newBuilder().setModel(modelNum).build();
+                    //Generate new command object wraping uro object inside of it.
+                    //Used to send model number to server
                     Command uroModelNum = protobuf.generateCommand("modelNumber",Uro.newBuilder().setModel(toHexString(getSHA(modelNum))).build());
                     t.sendMessage(uroModelNum);
                     
