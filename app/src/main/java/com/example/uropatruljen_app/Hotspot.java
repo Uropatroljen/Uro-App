@@ -62,10 +62,6 @@ public class Hotspot extends ListActivity {
         wifiReceiver = new WifiScanReceiver();
         wifiOBJ.startScan();
 
-        // Reset wifi with Disable and Enable wifi
-        wifiOBJ.setWifiEnabled(false);
-        wifiOBJ.setWifiEnabled(true);
-
         if(!currentSSID.contains("hoturo")) {
 
             // Enable wifi
@@ -95,7 +91,7 @@ public class Hotspot extends ListActivity {
             String personalSSID = receivedKeys.getStringExtra("ssid_key");
             String personalPASS = receivedKeys.getStringExtra("pass_key");
 
-            if (!personalSSID.isEmpty() && !personalPASS.isEmpty()) {
+            if (!personalSSID.isEmpty() || !personalPASS.isEmpty()) {
 
                 do {
                     finallyConnect(personalPASS, personalSSID);
@@ -156,6 +152,8 @@ public class Hotspot extends ListActivity {
     }
 
     private void finallyConnect(String networkPass, String networkSSID) {
+        
+        // Setup wifi configuration
         WifiConfiguration wifiConfig = new WifiConfiguration();
         wifiConfig.SSID = String.format("\"%s\"", networkSSID);
         wifiConfig.preSharedKey = String.format("\"%s\"", networkPass);
@@ -166,6 +164,7 @@ public class Hotspot extends ListActivity {
         wifiOBJ.enableNetwork(netId, true);
         wifiOBJ.reconnect();
 
+        // Connecting device with given SSID and password
         WifiConfiguration conf = new WifiConfiguration();
         conf.SSID = "\"\"" + networkSSID + "\"\"";
         conf.preSharedKey = "\"" + networkPass + "\"";

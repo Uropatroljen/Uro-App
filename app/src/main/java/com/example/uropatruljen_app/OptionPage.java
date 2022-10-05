@@ -1,6 +1,8 @@
 package com.example.uropatruljen_app;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -8,10 +10,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.example.uropatruljen_app.protobuf.*;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -24,19 +26,20 @@ import java.util.List;
 public class OptionPage extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     // Initializing
-    Button lightBTN;
-    Button musicBTN;
-    Button logoutBTN;
+    SwitchCompat lightBTN;
+    ImageView lightOnOff;
     Spinner musicDropdownList;
     TextView viewCountDown;
+    Button musicBTN;
+    Button logoutBTN;
     Thread Thread = null;
     Socket socket;
     int serverPORT = 1883;
     private CountDownTimer countDownTimer;
     private long timeStart;
     private boolean timerRun;
-    ProtobufHandler protobuf;
     private long timeLeft;
+    ProtobufHandler protobuf;
     SocketThread t;
 
     @Override
@@ -45,6 +48,7 @@ public class OptionPage extends AppCompatActivity implements AdapterView.OnItemS
         setContentView(R.layout.activity_option_page);
 
         // Getting view that is identified by the android:id
+        lightOnOff = findViewById(R.id.imageLight);
         lightBTN = findViewById(R.id.light);
         musicBTN = findViewById(R.id.music);
         logoutBTN = findViewById(R.id.logout);
@@ -74,16 +78,29 @@ public class OptionPage extends AppCompatActivity implements AdapterView.OnItemS
         // Creating protobuf object
         protobuf = new ProtobufHandler();
 
-        // Perform click event using lambda on lightBTN ( light function )
-        lightBTN.setOnClickListener(view -> {
+        // Perform checked changing event using lambda on lightBTN ( light function )
+        lightBTN.setOnCheckedChangeListener((compoundButton, b) -> {
 
+            if (compoundButton.isChecked()) {
+
+                // on send with protobuf to iot is missing!!!!!
+                
+                lightOnOff.setImageResource(R.drawable.light_icon2);
+            }
+            else {
+
+                // off send with protobuf to iot is missing!!!!!
+                
+                lightOnOff.setImageResource(R.drawable.light_icon);
+            }
         });
 
         // Spinner click listener
         musicDropdownList.setOnItemSelectedListener(this);
 
-        // Spinner Drop down elements in a list
+       // Spinner Drop down elements
         List<String> songs = new ArrayList<>();
+        songs.add("Vælg musik: ");
         songs.add("Fem små aber");
         songs.add("Lille peter edderkop");
         songs.add("Hjulene på bussen");
@@ -137,18 +154,42 @@ public class OptionPage extends AppCompatActivity implements AdapterView.OnItemS
             timeStart = 225000;
             viewCountDown.setText(R.string.time345);
 
+            // Display selected spinner item
+            Toast.makeText(parent.getContext(), "Der er valgt: " + item, Toast.LENGTH_LONG).show();
+
+            // send with protobuf to iot is missing!!!!!
+
+        }
+        else if (item.contains("edderkop")) {
+
+            // Set specific time for timer, display start status
+            timeStart = 112060;
+            viewCountDown.setText(R.string.time152);
+
+            // Display selected spinner item
+            Toast.makeText(parent.getContext(), "Der er valgt: " + item, Toast.LENGTH_LONG).show();
+
+            // send with protobuf to iot is missing!!!!!
+
+        }
+        else if (item.contains("bussen")) {
+
+            // Set specific time for timer, display start status
+            timeStart = 112060;
+            viewCountDown.setText(R.string.time152);
+
+            // Display selected spinner item
+            Toast.makeText(parent.getContext(), "Der er valgt: " + item, Toast.LENGTH_LONG).show();
+
+            // send with protobuf to iot is missing!!!!!
+
         }
         else {
 
-            // Set specific time for timer, display start status
-            timeStart = 52060;
-            viewCountDown.setText(R.string.time152);
-
+            Toast.makeText(parent.getContext(), "Der er ikke valgt musik", Toast.LENGTH_LONG).show();
         }
-
-        // Display selected spinner item
-        Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
     }
+
     public void onNothingSelected(AdapterView<?> arg0) {
         // TODO Auto-generated method stub
     }
