@@ -67,11 +67,11 @@ public final class UroCommand {
       "ight\022\022\n\005state\030\001 \001(\010H\000\210\001\001\022\020\n\003red\030\002 \001(\005H\001\210" +
       "\001\001\022\022\n\005green\030\003 \001(\005H\002\210\001\001\022\021\n\004blue\030\004 \001(\005H\003\210\001" +
       "\001B\010\n\006_stateB\006\n\004_redB\010\n\006_greenB\007\n\005_blue\"#" +
-      "\n\003Uro\022\022\n\005model\030\001 \001(\tH\000\210\001\001B\010\n\006_model\"D\n\nN" +
-      "etworkCre\022\021\n\004ssid\030\001 \001(\tH\000\210\001\001\022\021\n\004pass\030\002 \001" +
-      "(\tH\001\210\001\001B\007\n\005_ssidB\007\n\005_passB5\n%com.example" +
-      ".uropatruljen_app.protobufB\nUroCommandP\001" +
-      "b\006proto3"
+      "\n\003Uro\022\022\n\005model\030\001 \001(\tH\000\210\001\001B\010\n\006_model\"B\n\nN" +
+      "etworkCre\022\021\n\004ssid\030\001 \001(\tH\000\210\001\001\022\020\n\003psw\030\002 \001(" +
+      "\tH\001\210\001\001B\007\n\005_ssidB\006\n\004_pswB5\n%com.example.u" +
+      "ropatruljen_app.protobufB\nUroCommandP\001b\006" +
+      "proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -112,7 +112,7 @@ public final class UroCommand {
     internal_static_uropatruljen_app_NetworkCre_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_uropatruljen_app_NetworkCre_descriptor,
-        new java.lang.String[] { "Ssid", "Pass", "Ssid", "Pass", });
+        new java.lang.String[] { "Ssid", "Psw", "Ssid", "Psw", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

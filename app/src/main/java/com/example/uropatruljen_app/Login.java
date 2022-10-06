@@ -61,8 +61,10 @@ public class Login extends AppCompatActivity {
             }
         }).start();
 
+        // Used to send ssid and password to server
         Command network_credntials = protobuf.generateCommand("Network Credntials",NetworkCre.newBuilder().setSsid(receivedToShareSSID).setPass(receivedToSharePass).build());
-        //we need to sleep thread for a sec to make sure socket is connectede
+
+        // Need to sleep thread for a sec to make sure socket is connected
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
@@ -84,8 +86,8 @@ public class Login extends AppCompatActivity {
             else {
 
                 try {
-                    //Generate new command object wraping uro object inside of it.
-                    //Used to send model number to server
+                    // Generate new command object wraping uro object inside of it.
+                    // Used to send model number to server
                     Command uroModelNum = protobuf.generateCommand("modelNumber",Uro.newBuilder().setModel(toHexString(getSHA(modelNum))).build());
                     t.sendMessage(uroModelNum);
                     

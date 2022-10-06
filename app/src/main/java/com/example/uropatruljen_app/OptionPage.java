@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.example.uropatruljen_app.protobuf.*;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -22,6 +22,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class OptionPage extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -32,7 +33,6 @@ public class OptionPage extends AppCompatActivity implements AdapterView.OnItemS
     TextView viewCountDown;
     Button musicBTN;
     Button logoutBTN;
-    Thread Thread = null;
     Socket socket;
     int serverPORT = 1883;
     private CountDownTimer countDownTimer;
@@ -59,8 +59,8 @@ public class OptionPage extends AppCompatActivity implements AdapterView.OnItemS
         InetSocketAddress getIP = new InetSocketAddress("sas9URO", serverPORT);
         String serverIP = getIP.getHostString();
 
-        //We need to start the socket connection
-        //Android studio only allows socket connection to be stared in diffrent thread from main
+        // Need to start the socket connection
+        // Android studio only allows socket connection to be stared in different thread from main
         new Thread(() -> {
             try {
                 socket = new Socket(serverIP, serverPORT);
@@ -83,13 +83,15 @@ public class OptionPage extends AppCompatActivity implements AdapterView.OnItemS
 
             if (compoundButton.isChecked()) {
 
-                // on send with protobuf to iot is missing!!!!!
+                // Used to send light status for turn light on with random light colors to server
+                t.sendMessage(GiveRandomLight());
                 
                 lightOnOff.setImageResource(R.drawable.light_icon2);
             }
             else {
 
-                // off send with protobuf to iot is missing!!!!!
+                // Used to send light status for turn light off to server
+                t.sendMessage(protobuf.generateCommand("stop",Light.newBuilder().setState(false).setRed(0).setBlue(0).setGreen(0).build()));
                 
                 lightOnOff.setImageResource(R.drawable.light_icon);
             }
@@ -112,8 +114,13 @@ public class OptionPage extends AppCompatActivity implements AdapterView.OnItemS
         // Drop down layout style - list view with radio button
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
+
         // Attaching data adapter to spinner
         musicDropdownList.setAdapter(dataAdapter);
+
+        // Getting selected song
+        String selectedSong = musicDropdownList.getSelectedItem().toString();
+        int index = (int)musicDropdownList.getSelectedItemId();
 
         // Perform click event using lambda on musicBTN ( music function )
         musicBTN.setOnClickListener(view -> {
@@ -122,12 +129,12 @@ public class OptionPage extends AppCompatActivity implements AdapterView.OnItemS
 
             if (timerRun) {
 
-                stopMusicTimer();
+                stopMusicTimer(selectedSong,index);
 
             } else {
 
                 timeLeft = timeStart;
-                playMusicTimer();
+                playMusicTimer(selectedSong,index);
             }
         });
 
@@ -142,10 +149,21 @@ public class OptionPage extends AppCompatActivity implements AdapterView.OnItemS
             updateCountDown();
     }
 
+    // Adding random colors to lights from list of colors
+    private Command GiveRandomLight(){
+        Random r = new Random();
+        List<Command> colors = new ArrayList<>();
+        colors.add(protobuf.generateCommand("Play",Light.newBuilder().setState(true).setRed(255).setBlue(0).setGreen(85).build()));
+        colors.add(protobuf.generateCommand("Play",Light.newBuilder().setState(true).setRed(0).setBlue(255).setGreen(0).build()));
+        colors.add(protobuf.generateCommand("Play",Light.newBuilder().setState(true).setRed(255).setBlue(0).setGreen(0).build()));
+        colors.add(protobuf.generateCommand("Play",Light.newBuilder().setState(true).setRed(0).setBlue(0).setGreen(255).build()));
+        return colors.get(r.nextInt(colors.size()));
+    }
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-        // On selecting a spinner item
+        // Getting position of selected song  -  a spinner item
         String item = parent.getItemAtPosition(position).toString();
 
         if (item.contains("aber")) {
@@ -157,7 +175,8 @@ public class OptionPage extends AppCompatActivity implements AdapterView.OnItemS
             // Display selected spinner item
             Toast.makeText(parent.getContext(), "Der er valgt: " + item, Toast.LENGTH_LONG).show();
 
-            // send with protobuf to iot is missing!!!!!
+            // Used to send specific songs id and title for playing to server
+            protobuf.generateCommand("Play",Music.newBuilder().setId(1).setTitle("aber").build());
 
         }
         else if (item.contains("edderkop")) {
@@ -169,7 +188,8 @@ public class OptionPage extends AppCompatActivity implements AdapterView.OnItemS
             // Display selected spinner item
             Toast.makeText(parent.getContext(), "Der er valgt: " + item, Toast.LENGTH_LONG).show();
 
-            // send with protobuf to iot is missing!!!!!
+            // Used to send specific songs id and title for playing to server
+            protobuf.generateCommand("Play",Music.newBuilder().setId(3).setTitle("bussen").build());
 
         }
         else if (item.contains("bussen")) {
@@ -181,7 +201,8 @@ public class OptionPage extends AppCompatActivity implements AdapterView.OnItemS
             // Display selected spinner item
             Toast.makeText(parent.getContext(), "Der er valgt: " + item, Toast.LENGTH_LONG).show();
 
-            // send with protobuf to iot is missing!!!!!
+            // Used to send specific songs id and title for playing to server
+            protobuf.generateCommand("Play",Music.newBuilder().setId(3).setTitle("bussen").build());
 
         }
         else {
@@ -195,8 +216,9 @@ public class OptionPage extends AppCompatActivity implements AdapterView.OnItemS
     }
 
     // Starting timer for music playing
-    private void playMusicTimer() {
-
+    private void playMusicTimer(String song,int index) {
+        Command command = protobuf.generateCommand("Play",Music.newBuilder().setId(index).setTitle(song).build());
+        t.sendMessage(command);
         countDownTimer = new CountDownTimer(timeLeft, 1000) {
 
             @Override
@@ -220,8 +242,11 @@ public class OptionPage extends AppCompatActivity implements AdapterView.OnItemS
     }
 
     // Stop timer, when music is stopped
-    private void stopMusicTimer() {
+    private void stopMusicTimer(String song, int index) {
 
+        // Used to send specific songs id and title for stop playing to server
+        Command command = protobuf.generateCommand("Stop",Music.newBuilder().setId(index).setTitle(song).build());
+        t.sendMessage(command);
         countDownTimer.cancel();
         timerRun = false;
         musicBTN.setText(R.string.startMusic);

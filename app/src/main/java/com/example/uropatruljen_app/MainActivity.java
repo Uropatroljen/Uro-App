@@ -17,7 +17,5 @@ public class MainActivity extends AppCompatActivity {
 
         // Start the activity
         startActivity(hotspotIntent);
-
-
     }
 }

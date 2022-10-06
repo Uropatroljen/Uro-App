@@ -25,19 +25,19 @@ public interface NetworkCreOrBuilder extends
       getSsidBytes();
 
   /**
-   * <code>optional string pass = 2;</code>
-   * @return Whether the pass field is set.
+   * <code>optional string psw = 2;</code>
+   * @return Whether the psw field is set.
    */
-  boolean hasPass();
+  boolean hasPsw();
   /**
-   * <code>optional string pass = 2;</code>
-   * @return The pass.
+   * <code>optional string psw = 2;</code>
+   * @return The psw.
    */
-  java.lang.String getPass();
+  java.lang.String getPsw();
   /**
-   * <code>optional string pass = 2;</code>
-   * @return The bytes for pass.
+   * <code>optional string psw = 2;</code>
+   * @return The bytes for psw.
    */
   com.google.protobuf.ByteString
-      getPassBytes();
+      getPswBytes();
 }

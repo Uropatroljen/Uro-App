@@ -17,7 +17,7 @@ private static final long serialVersionUID = 0L;
   }
   private NetworkCre() {
     ssid_ = "";
-    pass_ = "";
+    psw_ = "";
   }
 
   @java.lang.Override
@@ -60,7 +60,7 @@ private static final long serialVersionUID = 0L;
           case 18: {
             java.lang.String s = input.readStringRequireUtf8();
             bitField0_ |= 0x00000002;
-            pass_ = s;
+            psw_ = s;
             break;
           }
           default: {
@@ -144,46 +144,46 @@ private static final long serialVersionUID = 0L;
     }
   }
 
-  public static final int PASS_FIELD_NUMBER = 2;
-  private volatile java.lang.Object pass_;
+  public static final int PSW_FIELD_NUMBER = 2;
+  private volatile java.lang.Object psw_;
   /**
-   * <code>optional string pass = 2;</code>
-   * @return Whether the pass field is set.
+   * <code>optional string psw = 2;</code>
+   * @return Whether the psw field is set.
    */
   @java.lang.Override
-  public boolean hasPass() {
+  public boolean hasPsw() {
     return ((bitField0_ & 0x00000002) != 0);
   }
   /**
-   * <code>optional string pass = 2;</code>
-   * @return The pass.
+   * <code>optional string psw = 2;</code>
+   * @return The psw.
    */
   @java.lang.Override
-  public java.lang.String getPass() {
-    java.lang.Object ref = pass_;
+  public java.lang.String getPsw() {
+    java.lang.Object ref = psw_;
     if (ref instanceof java.lang.String) {
       return (java.lang.String) ref;
     } else {
       com.google.protobuf.ByteString bs = 
           (com.google.protobuf.ByteString) ref;
       java.lang.String s = bs.toStringUtf8();
-      pass_ = s;
+      psw_ = s;
       return s;
     }
   }
   /**
-   * <code>optional string pass = 2;</code>
-   * @return The bytes for pass.
+   * <code>optional string psw = 2;</code>
+   * @return The bytes for psw.
    */
   @java.lang.Override
   public com.google.protobuf.ByteString
-      getPassBytes() {
-    java.lang.Object ref = pass_;
+      getPswBytes() {
+    java.lang.Object ref = psw_;
     if (ref instanceof java.lang.String) {
       com.google.protobuf.ByteString b = 
           com.google.protobuf.ByteString.copyFromUtf8(
               (java.lang.String) ref);
-      pass_ = b;
+      psw_ = b;
       return b;
     } else {
       return (com.google.protobuf.ByteString) ref;
@@ -208,7 +208,7 @@ private static final long serialVersionUID = 0L;
       com.google.protobuf.GeneratedMessageV3.writeString(output, 1, ssid_);
     }
     if (((bitField0_ & 0x00000002) != 0)) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, pass_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, psw_);
     }
     unknownFields.writeTo(output);
   }
@@ -223,7 +223,7 @@ private static final long serialVersionUID = 0L;
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, ssid_);
     }
     if (((bitField0_ & 0x00000002) != 0)) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, pass_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, psw_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -245,10 +245,10 @@ private static final long serialVersionUID = 0L;
       if (!getSsid()
           .equals(other.getSsid())) return false;
     }
-    if (hasPass() != other.hasPass()) return false;
-    if (hasPass()) {
-      if (!getPass()
-          .equals(other.getPass())) return false;
+    if (hasPsw() != other.hasPsw()) return false;
+    if (hasPsw()) {
+      if (!getPsw()
+          .equals(other.getPsw())) return false;
     }
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;
@@ -265,9 +265,9 @@ private static final long serialVersionUID = 0L;
       hash = (37 * hash) + SSID_FIELD_NUMBER;
       hash = (53 * hash) + getSsid().hashCode();
     }
-    if (hasPass()) {
-      hash = (37 * hash) + PASS_FIELD_NUMBER;
-      hash = (53 * hash) + getPass().hashCode();
+    if (hasPsw()) {
+      hash = (37 * hash) + PSW_FIELD_NUMBER;
+      hash = (53 * hash) + getPsw().hashCode();
     }
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
@@ -404,7 +404,7 @@ private static final long serialVersionUID = 0L;
       super.clear();
       ssid_ = "";
       bitField0_ = (bitField0_ & ~0x00000001);
-      pass_ = "";
+      psw_ = "";
       bitField0_ = (bitField0_ & ~0x00000002);
       return this;
     }
@@ -441,7 +441,7 @@ private static final long serialVersionUID = 0L;
       if (((from_bitField0_ & 0x00000002) != 0)) {
         to_bitField0_ |= 0x00000002;
       }
-      result.pass_ = pass_;
+      result.psw_ = psw_;
       result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
@@ -496,9 +496,9 @@ private static final long serialVersionUID = 0L;
         ssid_ = other.ssid_;
         onChanged();
       }
-      if (other.hasPass()) {
+      if (other.hasPsw()) {
         bitField0_ |= 0x00000002;
-        pass_ = other.pass_;
+        psw_ = other.psw_;
         onChanged();
       }
       this.mergeUnknownFields(other.unknownFields);
@@ -614,85 +614,85 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private java.lang.Object pass_ = "";
+    private java.lang.Object psw_ = "";
     /**
-     * <code>optional string pass = 2;</code>
-     * @return Whether the pass field is set.
+     * <code>optional string psw = 2;</code>
+     * @return Whether the psw field is set.
      */
-    public boolean hasPass() {
+    public boolean hasPsw() {
       return ((bitField0_ & 0x00000002) != 0);
     }
     /**
-     * <code>optional string pass = 2;</code>
-     * @return The pass.
+     * <code>optional string psw = 2;</code>
+     * @return The psw.
      */
-    public java.lang.String getPass() {
-      java.lang.Object ref = pass_;
+    public java.lang.String getPsw() {
+      java.lang.Object ref = psw_;
       if (!(ref instanceof java.lang.String)) {
         com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        pass_ = s;
+        psw_ = s;
         return s;
       } else {
         return (java.lang.String) ref;
       }
     }
     /**
-     * <code>optional string pass = 2;</code>
-     * @return The bytes for pass.
+     * <code>optional string psw = 2;</code>
+     * @return The bytes for psw.
      */
     public com.google.protobuf.ByteString
-        getPassBytes() {
-      java.lang.Object ref = pass_;
+        getPswBytes() {
+      java.lang.Object ref = psw_;
       if (ref instanceof String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        pass_ = b;
+        psw_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
     }
     /**
-     * <code>optional string pass = 2;</code>
-     * @param value The pass to set.
+     * <code>optional string psw = 2;</code>
+     * @param value The psw to set.
      * @return This builder for chaining.
      */
-    public Builder setPass(
+    public Builder setPsw(
         java.lang.String value) {
       if (value == null) {
     throw new NullPointerException();
   }
   bitField0_ |= 0x00000002;
-      pass_ = value;
+      psw_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>optional string pass = 2;</code>
+     * <code>optional string psw = 2;</code>
      * @return This builder for chaining.
      */
-    public Builder clearPass() {
+    public Builder clearPsw() {
       bitField0_ = (bitField0_ & ~0x00000002);
-      pass_ = getDefaultInstance().getPass();
+      psw_ = getDefaultInstance().getPsw();
       onChanged();
       return this;
     }
     /**
-     * <code>optional string pass = 2;</code>
-     * @param value The bytes for pass to set.
+     * <code>optional string psw = 2;</code>
+     * @param value The bytes for psw to set.
      * @return This builder for chaining.
      */
-    public Builder setPassBytes(
+    public Builder setPswBytes(
         com.google.protobuf.ByteString value) {
       if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
       bitField0_ |= 0x00000002;
-      pass_ = value;
+      psw_ = value;
       onChanged();
       return this;
     }
